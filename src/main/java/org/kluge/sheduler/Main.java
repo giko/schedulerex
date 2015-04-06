@@ -1,9 +1,7 @@
-package org.kluge.sheduler;
+package kluge.sheduler;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class Main {
     public static List<Message> generateTestData() {
@@ -17,6 +15,7 @@ public class Main {
             for (int dataIterator = 0; dataIterator < 1000; ++dataIterator) {
                 randomData.add(UUID.randomUUID().toString());
             }
+            message.setDataList(randomData);
 
             result.add(message);
         }
@@ -24,7 +23,20 @@ public class Main {
         return result;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException {
         List<Message> data = generateTestData();
+
+        Dispatcher dispatcher = new Dispatcher();
+
+        ExecutorService clientsThreadPool = Executors.newCachedThreadPool();
+        for (Message aData : data) {
+            clientsThreadPool.submit(() -> dispatcher.dispatch(aData));
+        }
+
+        try {
+            dispatcher.finish();
+        } catch (InterruptedException e) {
+            throw new RuntimeException("An error occurred!", e);
+        }
     }
 }
