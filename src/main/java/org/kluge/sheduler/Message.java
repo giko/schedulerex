@@ -1,4 +1,4 @@
-package kluge.sheduler;
+package org.kluge.sheduler;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;

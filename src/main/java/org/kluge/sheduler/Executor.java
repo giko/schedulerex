@@ -1,4 +1,4 @@
-package kluge.sheduler;
+package org.kluge.sheduler;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
